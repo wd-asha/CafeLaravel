@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Suedtirol Pro';
+    src: url('../fonts/SuedtirolPro-Regular.eot');
+    src: local('Suedtirol Pro Regular'), local('SuedtirolPro-Regular'),
+    url('../fonts/SuedtirolPro-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/SuedtirolPro-Regular.woff') format('woff'),
+    url('../fonts/SuedtirolPro-Regular.ttf') format('truetype');
+    font-style: normal;
+}

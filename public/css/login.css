@@ -1,0 +1,61 @@
+.login {
+    width: 20%;
+    height: 100%;
+    margin: 2rem auto;
+}
+
+.login-form {
+    /*position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);*/
+    border: 1px solid #ff8000;
+    padding: 3rem;
+}
+
+.login-form h3 {
+    font-size: 1.5rem;
+    padding: 0 0 2rem 0;
+    text-align: center;
+    color: #ff8000;
+    font-weight: 600;
+}
+
+.login-form input {
+    width: 100%;
+    padding: .66rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    font-family: "MontserratAlternates-Regular", sans-serif;
+    border: 1px solid rgba(200, 200, 200, 1);
+    outline: none;
+    margin-bottom: 1rem;
+}
+
+.login-link {
+    font-size: 1rem;
+    padding: .66rem 1.33rem .8rem 1.33rem;
+    transition: .5s;
+    font-weight: 600;
+    background-color: #ff8000;
+    color: #f7f2de;
+    width: 100%;
+    display: inline-block;
+    border-radius: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    cursor: pointer;
+}
+
+.forgot a,
+.toReg a {
+    font-size: .9rem;
+    color: #8a1f11;
+}
+
+.toReg {
+    color: rgba(80, 80, 80, 1);
+    font-size: .9rem;
+}
+

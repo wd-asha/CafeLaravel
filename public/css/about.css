@@ -1,0 +1,68 @@
+.container-about img {
+    width: 100%;
+}
+
+.container-services-title p span {
+    font-size: 1.2em;
+    color: rgba(206, 59, 40, 1.0);
+}
+
+.about-txt {
+    width: 100%;
+}
+
+.about-txt h4 {
+    font-size: 1.3rem;
+    line-height: 1.56rem;
+    color: rgba(206, 59, 40, 1.0);
+    font-weight: 300;
+    padding: 0 0 .5rem 0;
+}
+
+.about-txt p {
+    font-size: 1.1rem;
+    line-height: 1.32rem;
+    padding: .5rem 0;
+    width: 100%;
+}
+
+.about-txt p span {
+    font-size: 1.2em;
+    color: rgba(206, 59, 40, 1.0);
+}
+
+.about-txt-img {
+    width: 50%;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    padding: 1rem 0 0 0;
+}
+
+.about-txt-img img {
+    width: 100%;
+}
+
+.about-item {
+    width: 22%;
+    text-align: center;
+}
+
+.about-item img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.about-item h4 {
+    font-size: 1.3rem;
+    line-height: 1.56rem;
+    color: rgba(206, 59, 40, 1.0);
+    padding-bottom: 1rem;
+    text-align: left;
+}
+
+.about-item p {
+    font-size: 1.1rem;
+    line-height: 1.32rem;
+    text-align: left;
+}
