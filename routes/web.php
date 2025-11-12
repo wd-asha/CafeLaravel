@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\WorkingHour;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +54,16 @@ Route::get('admin/table/edit/{id}', ['App\Http\Controllers\Admin\TableController
 Route::get('admin/table/delete/{id}', ['App\Http\Controllers\Admin\TableController', 'delete'])->name('table.delete');
 Route::get('admin/table/restore/{id}', ['App\Http\Controllers\Admin\TableController', 'restore'])->name('table.restore');
 Route::get('admin/table/destroy/{id}', ['App\Http\Controllers\Admin\TableController', 'destroy'])->name('table.destroy');
+
+//Admin Hours
+Route::get('admin/hours', ['App\Http\Controllers\Admin\HoursController', 'index'])->name('admin.hours');
+Route::get('admin/hour/create', ['App\Http\Controllers\Admin\HoursController', 'create'])->name('hour.create');
+Route::post('admin/hour/store', ['App\Http\Controllers\Admin\HoursController', 'store'])->name('hour.store');
+Route::post('admin/hour/update/{id}', ['App\Http\Controllers\Admin\HoursController', 'update'])->name('hour.update');
+Route::get('admin/hour/edit/{id}', ['App\Http\Controllers\Admin\HoursController', 'edit'])->name('hour.edit');
+Route::get('admin/hour/delete/{id}', ['App\Http\Controllers\Admin\HoursController', 'delete'])->name('hour.delete');
+Route::get('admin/hour/restore/{id}', ['App\Http\Controllers\Admin\HoursController', 'restore'])->name('hour.restore');
+Route::get('admin/hour/destroy/{id}', ['App\Http\Controllers\Admin\HoursController', 'destroy'])->name('hour.destroy');
 
 //Admin Dish
 Route::get('admin/dishes', ['App\Http\Controllers\Admin\DishController', 'index'])->name('admin.dishes');

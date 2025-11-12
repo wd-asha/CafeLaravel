@@ -70,6 +70,19 @@
 
         <a href="#" class="sl-menu-link">
             <div class="sl-menu-item">
+                <i class="fa fa-clock-o tx-20"></i>
+                <span class="menu-item-label">Рабочее время</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+        </a><!-- sl-menu-link -->
+
+        <ul class="sl-menu-sub nav flex-column">
+            <li class="nav-item"><a href="{{ route('admin.hours') }}" class="nav-link">Все времена</a></li>
+            <li class="nav-item"><a href="{{ route('hour.create') }}" class="nav-link">Новое время</a></li>
+        </ul>
+
+        <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
                 <i class="fa fa-coffee tx-20"></i>
                 <span class="menu-item-label">Блюда</span>
                 <i class="menu-item-arrow fa fa-angle-down"></i>
