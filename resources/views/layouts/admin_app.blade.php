@@ -57,6 +57,19 @@
 
         <a href="#" class="sl-menu-link">
             <div class="sl-menu-item">
+                <i class="fa fa-table tx-20"></i>
+                <span class="menu-item-label">Столики</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+        </a><!-- sl-menu-link -->
+
+        <ul class="sl-menu-sub nav flex-column">
+            <li class="nav-item"><a href="{{ route('admin.tables') }}" class="nav-link">Все столики</a></li>
+            <li class="nav-item"><a href="{{ route('table.create') }}" class="nav-link">Новый столик</a></li>
+        </ul>
+
+        <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
                 <i class="fa fa-coffee tx-20"></i>
                 <span class="menu-item-label">Блюда</span>
                 <i class="menu-item-arrow fa fa-angle-down"></i>

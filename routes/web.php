@@ -44,6 +44,16 @@ Route::get('admin/categories', ['App\Http\Controllers\Admin\CategoryController',
 Route::post('admin/category/store', ['App\Http\Controllers\Admin\CategoryController', 'store'])->name('admin.category.store');
 Route::get('admin/category/delete/{id}', ['App\Http\Controllers\Admin\CategoryController', 'delete'])->name('admin.category.delete');
 
+//Admin Tables
+Route::get('admin/tables', ['App\Http\Controllers\Admin\TableController', 'index'])->name('admin.tables');
+Route::get('admin/table/create', ['App\Http\Controllers\Admin\TableController', 'create'])->name('table.create');
+Route::post('admin/table/store', ['App\Http\Controllers\Admin\TableController', 'store'])->name('table.store');
+Route::post('admin/table/update/{id}', ['App\Http\Controllers\Admin\TableController', 'update'])->name('table.update');
+Route::get('admin/table/edit/{id}', ['App\Http\Controllers\Admin\TableController', 'edit'])->name('table.edit');
+Route::get('admin/table/delete/{id}', ['App\Http\Controllers\Admin\TableController', 'delete'])->name('table.delete');
+Route::get('admin/table/restore/{id}', ['App\Http\Controllers\Admin\TableController', 'restore'])->name('table.restore');
+Route::get('admin/table/destroy/{id}', ['App\Http\Controllers\Admin\TableController', 'destroy'])->name('table.destroy');
+
 //Admin Dish
 Route::get('admin/dishes', ['App\Http\Controllers\Admin\DishController', 'index'])->name('admin.dishes');
 Route::get('admin/dish/create', ['App\Http\Controllers\Admin\DishController', 'create'])->name('dish.create');
