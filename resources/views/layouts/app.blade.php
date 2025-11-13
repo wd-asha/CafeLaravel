@@ -8,7 +8,7 @@
     <title>@yield('title')</title>
     <link href="{{asset('css/main.css')}}" rel="stylesheet">
     <link href="{{asset('css/popup.css')}}" rel="stylesheet">
-    <link href="{{asset('css/login.css')}}" rel="stylesheet">
+    {{--<link href="{{asset('css/login.css')}}" rel="stylesheet">--}}
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/toastr.css')}}" rel="stylesheet">
 </head>
@@ -130,7 +130,7 @@
                     </div>
                     @enderror
                     <label for="date_place">Дата</label>
-                    <input class="login-input" type="date" name="date" id="date_place" placeholder="Дата *">
+                    <input class="login-input" type="date" name="date" id="date_place" placeholder="Дата *" min="{{ date('Y-m-d') }}">
                     @error('date')
                     <div style="color: red; font-size: .8rem; width: 100%; transform: translateY(-.5rem);">
                         <p style="text-align: center; width: 100%;">{{ $message }}</p>
@@ -235,6 +235,8 @@
         const placesInput = document.querySelector('select[name="places"]');
         const submitButton = document.querySelector('.login-submit');
 
+        let checkTimeout = null;
+
         // создаём место под сообщение
         const messageBox = document.createElement('div');
         messageBox.style.marginTop = '10px';
@@ -255,6 +257,33 @@
                 submitButton.style.opacity = '0';
                 submitButton.style.display = 'none';
                 return;
+            }
+
+            // 🔹 Проверка: дата не должна быть в прошлом
+            const today = new Date();
+            const selected = new Date(date + 'T00:00:00');
+
+            if (selected < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                messageBox.style.color = 'red';
+                messageBox.textContent = 'Нельзя выбрать прошедшую дату.';
+                timeInput.value = ''; // сбрасываем время
+                submitButton.style.display = 'none';
+                return;
+            }
+
+            // 🔹 Проверка: прошедшее время, если сегодня
+            if (selected.toDateString() === today.toDateString()) {
+                const [hours, minutes] = time.split(':').map(Number);
+                const selectedTime = new Date();
+                selectedTime.setHours(hours, minutes, 0, 0);
+
+                if (selectedTime < today) {
+                    messageBox.style.color = 'red';
+                    messageBox.textContent = 'Нельзя выбрать время, которое уже прошло.';
+                    timeInput.value = ''; // очищаем поле времени
+                    submitButton.style.display = 'none';
+                    return;
+                }
             }
 
             try {

@@ -61,7 +61,19 @@
                         <p>Прием заказов</p>
                         <p class="phone">238-238-3</p>
                     </div>
-                    <p style="color: white; font-size: 1.1rem; line-height: 1.1; padding-top: 1rem; text-transform: uppercase">{{ $order_yes }}</p>
+                    @if(session('order_yes'))
+                        <div style="
+                            font-size: 1.2rem;
+                            line-height: 1.2rem;
+                            color: white;
+                            text-align: center;
+                            padding: 1rem;
+                            border: 1px solid white;
+                            margin-top: .5rem;
+                            background-color: darkgreen;">
+                            {{ session('order_yes') }}
+                        </div>
+                    @endif
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             @foreach ($errors->all() as $error)
@@ -94,17 +106,15 @@
     <a href="#fix-box" class="popup_area"></a>
     <div class="popup_body">
         <div class="popup_image">
-            <img src="{{asset('images/hall.jpg')}}">
+            <img src="{{asset('images/hall.jpg')}}" alt="План кафе">
         </div>
         <div class="popup_content">
             <a href="#fix-box" class="popup_close">
                 <i class="fa fa-times"></i>
             </a>
-            <div class="popup_title">
-                Заказ места
-            </div>
+            <h3 class="popup_title">Заказ места</h3>
             <div class="popup_text">
-                <form class="login-form" action="{{ route('placeA') }}" method="post">
+                <form class="login-form" action="{{ route('place') }}" method="post">
                     @csrf
                     <input class="login-input" type="text" name="name" placeholder="Имя *">
                     @error('name')
@@ -119,7 +129,7 @@
                     </div>
                     @enderror
                     <label for="date_place">Дата</label>
-                    <input class="login-input" type="date" name="date" id="date_place" placeholder="Дата *">
+                    <input class="login-input" type="date" name="date" id="date_place" placeholder="Дата *" min="{{ date('Y-m-d') }}">
                     @error('date')
                     <div style="color: red; font-size: .8rem; width: 100%; transform: translateY(-.5rem);">
                         <p style="text-align: center; width: 100%;">{{ $message }}</p>
@@ -132,14 +142,22 @@
                         <p style="text-align: center; width: 100%;">{{ $message }}</p>
                     </div>
                     @enderror
-                    <input class="login-input" type="text" name="places" placeholder="Места *">
+
+                    <select class="login-input" name="places" id="places">
+                        <option value="">Выберите столик *</option>
+                        @foreach($tables as $table)
+                            <option value="{{ $table->name }}">{{ $table->name }}</option>
+                        @endforeach
+                    </select>
                     @error('places')
                     <div style="color: red; font-size: .8rem; width: 100%; transform: translateY(-.5rem);">
                         <p style="text-align: center; width: 100%;">{{ $message }}</p>
                     </div>
                     @enderror
+
                     <button type="submit" href="#fix-box" class="login-submit">Заказать</button>
                 </form>
+
             </div>
         </div>
     </div>
@@ -185,5 +203,110 @@
         }
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.querySelector('input[name="date"]');
+        const timeInput = document.querySelector('input[name="time"]');
+        const placesInput = document.querySelector('select[name="places"]');
+        const submitButton = document.querySelector('.login-submit');
+
+        let checkTimeout = null;
+
+        // создаём место под сообщение
+        const messageBox = document.createElement('div');
+        messageBox.style.marginTop = '10px';
+        messageBox.style.textAlign = 'center';
+        messageBox.style.fontWeight = '500';
+        document.querySelector('.login-form').appendChild(messageBox);
+
+        // функция для проверки
+        async function checkAvailability() {
+            const date = dateInput.value;
+            const time = timeInput.value;
+            const places = placesInput.value;
+
+            // если не выбрано всё — просто очищаем
+            if (!date || !time || !places) {
+                messageBox.textContent = '';
+                submitButton.disabled = true;
+                submitButton.style.opacity = '0';
+                submitButton.style.display = 'none';
+                return;
+            }
+
+            // 🔹 Проверка: дата не должна быть в прошлом
+            const today = new Date();
+            const selected = new Date(date + 'T00:00:00');
+
+            if (selected < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                messageBox.style.color = 'red';
+                messageBox.textContent = 'Нельзя выбрать прошедшую дату.';
+                timeInput.value = ''; // сбрасываем время
+                submitButton.style.display = 'none';
+                return;
+            }
+
+            // 🔹 Проверка: прошедшее время, если сегодня
+            if (selected.toDateString() === today.toDateString()) {
+                const [hours, minutes] = time.split(':').map(Number);
+                const selectedTime = new Date();
+                selectedTime.setHours(hours, minutes, 0, 0);
+
+                if (selectedTime < today) {
+                    messageBox.style.color = 'red';
+                    messageBox.textContent = 'Нельзя выбрать время, которое уже прошло.';
+                    timeInput.value = ''; // очищаем поле времени
+                    submitButton.style.display = 'none';
+                    return;
+                }
+            }
+
+            try {
+                const response = await fetch('{{ route('checkPlace') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ date, time, places })
+                });
+                const data = await response.json();
+
+                messageBox.textContent = data.message;
+                if (data.status === 'ok') {
+                    messageBox.style.color = 'green';
+                    submitButton.disabled = false;
+                    submitButton.style.opacity = '1';
+                    submitButton.style.cursor = 'pointer';
+                    submitButton.style.display = 'block';
+                } else {
+                    messageBox.style.color = 'red';
+                    submitButton.disabled = true;
+                    submitButton.style.opacity = '0';
+                    submitButton.style.display = 'none';
+                }
+            } catch (error) {
+                console.error(error);
+                messageBox.textContent = 'Ошибка при проверке.';
+                messageBox.style.color = 'red';
+                submitButton.disabled = true;
+                submitButton.style.opacity = '0';
+                submitButton.style.display = 'none';
+            }
+        }
+
+        // слушаем изменения
+        dateInput.addEventListener('change', checkAvailability);
+        timeInput.addEventListener('change', checkAvailability);
+        placesInput.addEventListener('change', checkAvailability);
+
+        // блокируем кнопку при загрузке страницы
+        submitButton.disabled = true;
+        submitButton.style.opacity = '0';
+        submitButton.style.display = 'none';
+    });
+</script>
+
 </body>
 </html>

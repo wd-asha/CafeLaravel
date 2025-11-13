@@ -49,8 +49,9 @@ class HomeController extends Controller
     {
         $categories = Category::all();
         $dishes = Dish::all();
+        $tables = Table::all();
         $order_yes = "";
-        return view('about', compact('dishes', 'categories', 'order_yes'));
+        return view('about', compact('dishes', 'categories', 'order_yes', 'tables'));
     }
 
     public function contacts()
@@ -115,7 +116,7 @@ class HomeController extends Controller
         /*return view('welcome', compact('order_yes', 'tables'));*/
         /*return back()->with('order_yes');*/
     }
-    
+
     public function placeA(Request $request)
     {
         $order_yes = "";
