@@ -11,7 +11,6 @@
     <link href="{{asset('css/login.css')}}" rel="stylesheet">
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/toastr.css')}}" rel="stylesheet">
-    {{--<link href="{{asset('css/starlight.css')}}" rel="stylesheet">--}}
 </head>
 
 <body>
@@ -64,7 +63,19 @@
                     <p>Прием заказов</p>
                     <p class="phone">238-238-3</p>
                 </div>
-                <p style="color: white; font-size: 1.1rem; line-height: 1.1; padding-top: 1rem; text-transform: uppercase">{{ $order_yes }}</p>
+                @if(session('order_yes'))
+                    <div style="
+                            font-size: 1.2rem;
+                            line-height: 1.2rem;
+                            color: white;
+                            text-align: center;
+                            padding: 1rem;
+                            border: 1px solid white;
+                            margin-top: .5rem;
+                            background-color: darkgreen;">
+                        {{ session('order_yes') }}
+                    </div>
+                @endif
                 @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         @foreach ($errors->all() as $error)
@@ -96,15 +107,13 @@
     <a href="#fix-box" class="popup_area"></a>
     <div class="popup_body">
         <div class="popup_image">
-            <img src="{{asset('images/hall.jpg')}}">
+            <img src="{{asset('images/hall.jpg')}}" alt="План кафе">
         </div>
         <div class="popup_content">
             <a href="#fix-box" class="popup_close">
                 <i class="fa fa-times"></i>
             </a>
-            <div class="popup_title">
-                Заказ места
-            </div>
+            <h3 class="popup_title">Заказ места</h3>
             <div class="popup_text">
                 <form class="login-form" action="{{ route('place') }}" method="post">
                     @csrf
@@ -134,14 +143,22 @@
                         <p style="text-align: center; width: 100%;">{{ $message }}</p>
                     </div>
                     @enderror
-                    <input class="login-input" type="text" name="places" placeholder="Места *">
+
+                    <select class="login-input" name="places" id="places">
+                        <option value="">Выберите столик *</option>
+                        @foreach($tables as $table)
+                            <option value="{{ $table->name }}">{{ $table->name }}</option>
+                        @endforeach
+                    </select>
                     @error('places')
                     <div style="color: red; font-size: .8rem; width: 100%; transform: translateY(-.5rem);">
                         <p style="text-align: center; width: 100%;">{{ $message }}</p>
                     </div>
                     @enderror
+
                     <button type="submit" href="#fix-box" class="login-submit">Заказать</button>
                 </form>
+
             </div>
         </div>
     </div>
@@ -150,7 +167,6 @@
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{ asset('js/sweetalert.min.js')}}"></script>
 <script src="{{ asset('js/toastr.min.js')}}"></script>
-{{--<script src="{{ asset('js/starlight.js') }}"></script>--}}
 
 <script>
     @if(Session::has('message'))
@@ -211,5 +227,81 @@
         }
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.querySelector('input[name="date"]');
+        const timeInput = document.querySelector('input[name="time"]');
+        const placesInput = document.querySelector('select[name="places"]');
+        const submitButton = document.querySelector('.login-submit');
+
+        // создаём место под сообщение
+        const messageBox = document.createElement('div');
+        messageBox.style.marginTop = '10px';
+        messageBox.style.textAlign = 'center';
+        messageBox.style.fontWeight = '500';
+        document.querySelector('.login-form').appendChild(messageBox);
+
+        // функция для проверки
+        async function checkAvailability() {
+            const date = dateInput.value;
+            const time = timeInput.value;
+            const places = placesInput.value;
+
+            // если не выбрано всё — просто очищаем
+            if (!date || !time || !places) {
+                messageBox.textContent = '';
+                submitButton.disabled = true;
+                submitButton.style.opacity = '0';
+                submitButton.style.display = 'none';
+                return;
+            }
+
+            try {
+                const response = await fetch('{{ route('checkPlace') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ date, time, places })
+                });
+                const data = await response.json();
+
+                messageBox.textContent = data.message;
+                if (data.status === 'ok') {
+                    messageBox.style.color = 'green';
+                    submitButton.disabled = false;
+                    submitButton.style.opacity = '1';
+                    submitButton.style.cursor = 'pointer';
+                    submitButton.style.display = 'block';
+                } else {
+                    messageBox.style.color = 'red';
+                    submitButton.disabled = true;
+                    submitButton.style.opacity = '0';
+                    submitButton.style.display = 'none';
+                }
+            } catch (error) {
+                console.error(error);
+                messageBox.textContent = 'Ошибка при проверке.';
+                messageBox.style.color = 'red';
+                submitButton.disabled = true;
+                submitButton.style.opacity = '0';
+                submitButton.style.display = 'none';
+            }
+        }
+
+        // слушаем изменения
+        dateInput.addEventListener('change', checkAvailability);
+        timeInput.addEventListener('change', checkAvailability);
+        placesInput.addEventListener('change', checkAvailability);
+
+        // блокируем кнопку при загрузке страницы
+        submitButton.disabled = true;
+        submitButton.style.opacity = '0';
+        submitButton.style.display = 'none';
+    });
+</script>
+
 </body>
 </html>

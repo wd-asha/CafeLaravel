@@ -14,18 +14,29 @@ class HoursController extends Controller
         $this->middleware('admin');
     }
 
+    /* --------------------- */
+    /*    Show all Hours     */
+    /* --------------------- */
     public function index()
     {
         $hours = WorkingHour::latest()->paginate(5);
         $trashed = WorkingHour::onlyTrashed()->orderBy('id', 'desc')->paginate(5);
         return view('admin.hours.index', compact('hours', 'trashed'));
     }
+    /* -- end show all hours -- */
 
+    /* ------------------- */
+    /*      Create Hour    */
+    /* ------------------- */
     public function create()
     {
         return view('admin.hours.create');
     }
+    /* -- end create hour -- */
 
+    /* -------------------- */
+    /*      Save new Hour   */
+    /* -------------------- */
     public function store(Request $request)
     {
         $data = array();
@@ -39,7 +50,11 @@ class HoursController extends Controller
         );
         return redirect()->route('admin.hours');
     }
+    /* -- end save new hour -- */
 
+    /* -------------- */
+    /*  Trashed Hour  */
+    /* -------------- */
     public function delete($id)
     {
         WorkingHour::find($id)->delete();
@@ -47,15 +62,24 @@ class HoursController extends Controller
             'message' => 'Время в корзине',
             'alert-type' => 'success'
         );
+        /* to Hours list page */
         return Redirect()->back()->with($notification);
     }
+    /* end trashed hour */
 
+    /* ------------------ */
+    /*      Edit Hour     */
+    /* ------------------ */
     public function edit($id)
     {
         $hour = WorkingHour::find($id);
         return view('admin.hours.edit', compact( 'hour'));
     }
+    /* -- end edit hour -- */
 
+    /* ---------------------- */
+    /*      Restore Hour      */
+    /* ---------------------- */
     public function restore($id)
     {
         WorkingHour::withTrashed()->find($id)->restore();
@@ -63,10 +87,14 @@ class HoursController extends Controller
             'message' => 'Время восстановлен',
             'alert-type' => 'success'
         );
-        /* to the hours list page */
+        /* to Hours list page */
         return Redirect()->back()->with($notification);
     }
+    /* -- end restore hour -- */
 
+    /* -------------------- */
+    /*      Destroy Hour    */
+    /* -------------------- */
     public function destroy($id)
     {
         /* find a WorkingHour */
@@ -77,10 +105,14 @@ class HoursController extends Controller
             'message' => 'Время удалено',
             'alert-type' => 'success'
         );
-        /* to the WorkingHours list page */
+        /* to Hours list page */
         return Redirect()->back()->with($notification);
     }
+    /* -- end destroy hour -- */
 
+    /* --------------------- */
+    /*      Update Hour      */
+    /* --------------------- */
     public function update(Request $request, $id)
     {
         /* preparing the data that came from the form */
@@ -88,7 +120,7 @@ class HoursController extends Controller
         $data['day_of_week']= $request->day_of_week;
         $data['open_time']= $request->open_time;
         $data['close_time']= $request->close_time;
-        /* update Table */
+        /* update Hour */
         $update = WorkingHour::find($id)->update($data);
         if($update) {
             $notification = array(
@@ -101,7 +133,8 @@ class HoursController extends Controller
                 'alert-type' => 'success'
             );
         }
-        /* to the Tables list page */
+        /* to Hours list page */
         return Redirect()->route('admin.hours')->with($notification);
     }
+    /* -- end update hour -- */
 }

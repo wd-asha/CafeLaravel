@@ -72,7 +72,7 @@ class DishController extends Controller
     /* -- end save new dish -- */
 
     /* -------------- */
-    /*  Trashed dish  */
+    /*  Trashed Dish  */
     /* -------------- */
     public function delete($id)
     {
@@ -81,7 +81,7 @@ class DishController extends Controller
             'message' => 'Блюдо в корзине',
             'alert-type' => 'success'
         );
-        /* to the dishes list page */
+        /* to Dishes list page */
         return Redirect()->back()->with($notification);
     }
     /* end trashed dish */
@@ -137,13 +137,13 @@ class DishController extends Controller
     /* -- end show single dish -- */
 
     /* ------------------ */
-    /*      Edit Dish    */
+    /*      Edit Dish     */
     /* ------------------ */
     public function edit($id)
     {
         $categories = Category::all();
         $dish = Dish::find($id);
-        /* to the dish`s edit page */
+        /* to Dishes edit page */
         return view('admin.dish.edit', compact('categories', 'dish'));
     }
     /* -- end edit dish -- */
@@ -215,7 +215,7 @@ class DishController extends Controller
         /* to the dishes list page */
         return Redirect()->route('admin.dishes')->with($notification);
     }
-    /* -- end update hotel -- */
+    /* -- end update dish -- */
 
     public function status0($id)
     {

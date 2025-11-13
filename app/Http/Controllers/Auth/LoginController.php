@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Table;
 
 class LoginController extends Controller
 {
@@ -49,6 +50,7 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $order_yes = "";
-        return view ('login', compact('order_yes'));
+        $tables = Table::all();
+        return view ('login', compact('order_yes', 'tables'));
     }
 }

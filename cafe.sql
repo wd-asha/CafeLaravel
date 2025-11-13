@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1:3306
--- Время создания: Ноя 19 2023 г., 23:11
--- Версия сервера: 8.0.24
--- Версия PHP: 8.0.8
+-- Хост: mysql-8.4
+-- Время создания: Ноя 13 2025 г., 17:11
+-- Версия сервера: 8.4.6
+-- Версия PHP: 8.2.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -140,7 +140,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2023_11_16_051621_add_field_soft_to_users_table', 4),
 (10, '2023_11_18_155813_create_order_items_table', 5),
 (11, '2023_11_18_155912_create_orders_table', 5),
-(13, '2023_11_18_163241_create_places_table', 6);
+(13, '2023_11_18_163241_create_places_table', 6),
+(16, '2025_11_12_165756_create_tables_table', 7),
+(17, '2025_11_12_170152_create_working_hours_table', 7);
 
 -- --------------------------------------------------------
 
@@ -150,14 +152,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `orders` (
   `id` bigint UNSIGNED NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_id` int UNSIGNED DEFAULT NULL,
-  `user_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_delivery` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_delivery` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_status` int NOT NULL DEFAULT '0',
-  `order_total` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_total` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -168,7 +170,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `slug`, `user_id`, `user_name`, `order_delivery`, `order_email`, `order_phone`, `order_status`, `order_total`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(4, NULL, NULL, 'Михаил', 'Челябинская обл. Аша, Ленина', NULL, '89043000734', 1, '220', '2023-11-19 14:51:22', '2023-11-19 15:08:59', NULL);
+(4, NULL, NULL, 'Михаил', 'Челябинская обл. Аша, Ленина', NULL, '89043000734', 1, '220', '2023-11-19 14:51:22', '2023-11-19 15:08:59', NULL),
+(5, NULL, NULL, 'Михаил', 'Аша', NULL, '89043000734', 0, '175', '2025-11-12 09:33:35', '2025-11-12 09:33:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -179,9 +182,9 @@ INSERT INTO `orders` (`id`, `slug`, `user_id`, `user_name`, `order_delivery`, `o
 CREATE TABLE `order_items` (
   `id` bigint UNSIGNED NOT NULL,
   `order_id` int NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dish_id` int UNSIGNED DEFAULT NULL,
-  `dish_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dish_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dish_weight` int UNSIGNED DEFAULT NULL,
   `dish_price` int UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -194,7 +197,8 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `slug`, `dish_id`, `dish_title`, `dish_weight`, `dish_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(5, 4, NULL, 1, 'Салат с моцарелой и томатами', 200, 220, '2023-11-19 14:51:22', '2023-11-19 14:51:22', NULL);
+(5, 4, NULL, 1, 'Салат с моцарелой и томатами', 200, 220, '2023-11-19 14:51:22', '2023-11-19 14:51:22', NULL),
+(6, 5, NULL, 2, 'Теплый салат с курицей и беконом', 250, 175, '2025-11-12 09:33:36', '2025-11-12 09:33:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -235,15 +239,24 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `places` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `date` date DEFAULT NULL,
   `time` time DEFAULT NULL,
-  `places` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `places` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `places`
+--
+
+INSERT INTO `places` (`id`, `name`, `phone`, `date`, `time`, `places`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(33, 'Михаил', '+7 904 300 07 34', '2025-11-12', '15:00:00', 'Столик №1', '2025-11-13 05:18:04', '2025-11-13 06:23:36', NULL),
+(34, 'Михаил', '+7 904 300 07 34', '2025-11-12', '15:00:00', 'Столик №2', '2025-11-13 05:22:15', '2025-11-13 05:22:15', NULL),
+(43, 'Михаил', '+7 904 300 07 34', '2025-11-12', '15:00:00', 'Столик №3', '2025-11-13 05:45:59', '2025-11-13 05:45:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -270,6 +283,35 @@ INSERT INTO `roles` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `tables`
+--
+
+CREATE TABLE `tables` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `tables`
+--
+
+INSERT INTO `tables` (`id`, `name`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(5, 'Столик №2', '2025-11-12 13:06:44', '2025-11-12 13:07:57', NULL),
+(6, 'Столик №1', '2025-11-12 13:07:51', '2025-11-12 13:07:51', NULL),
+(7, 'Столик №3', '2025-11-12 13:08:17', '2025-11-12 13:08:17', NULL),
+(8, 'Столик №4', '2025-11-13 06:24:47', '2025-11-13 06:24:47', NULL),
+(9, 'Столик №5', '2025-11-13 06:25:02', '2025-11-13 06:25:02', NULL),
+(10, 'Столик №6', '2025-11-13 06:25:39', '2025-11-13 06:25:39', NULL),
+(11, 'Столик №7', '2025-11-13 06:25:52', '2025-11-13 06:25:52', NULL),
+(12, 'Столик №8', '2025-11-13 06:26:04', '2025-11-13 06:26:04', NULL),
+(13, 'Столик №9', '2025-11-13 06:26:17', '2025-11-13 06:26:17', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `users`
 --
 
@@ -291,8 +333,36 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `role_id`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Admin', 'admin@gmail.com', 1, NULL, '$2y$10$Upmkr/g2nYH5qHBFwqQNKedNwHxTeD1.7KOpsl.E2wPsitj46eeBa', 'yBXrSBkxqDdY07D8AYMmHBNQsVB4w3tHIGdMjmVtdZ6vOLGF14vjqnscy84m', '2023-11-15 13:52:20', NULL, NULL),
+(1, 'Admin', 'admin@gmail.com', 1, NULL, '$2y$10$Upmkr/g2nYH5qHBFwqQNKedNwHxTeD1.7KOpsl.E2wPsitj46eeBa', 'aj71EAPIPg8lhi6uBXItQo7i4mguRJWPRUuq9xW0prkPnQuzA6gPg2HmOyb2', '2023-11-15 13:52:20', NULL, NULL),
 (2, 'Author', 'author@gmail.com', 2, NULL, '$2y$10$1JhdC1HsidgnNz79NPTb/OSq24AM9SI6JRf/ODe2T/m8J.WWezRSS', NULL, '2023-11-15 13:52:20', '2023-11-16 00:33:09', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `working_hours`
+--
+
+CREATE TABLE `working_hours` (
+  `id` bigint UNSIGNED NOT NULL,
+  `day_of_week` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `open_time` time NOT NULL,
+  `close_time` time NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `working_hours`
+--
+
+INSERT INTO `working_hours` (`id`, `day_of_week`, `open_time`, `close_time`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'воскресенье', '08:00:00', '23:59:00', '2025-11-12 14:09:03', '2025-11-13 06:28:03', NULL),
+(2, 'вторник', '08:00:00', '23:00:00', '2025-11-12 14:12:32', '2025-11-12 14:12:32', NULL),
+(3, 'среда', '08:00:00', '23:00:00', '2025-11-12 14:12:52', '2025-11-12 14:12:52', NULL),
+(4, 'четверг', '08:00:00', '23:00:00', '2025-11-13 06:27:04', '2025-11-13 06:27:04', NULL),
+(5, 'пятница', '08:00:00', '23:00:00', '2025-11-13 06:27:26', '2025-11-13 06:27:26', NULL),
+(6, 'суббота', '08:00:00', '23:59:00', '2025-11-13 06:28:52', '2025-11-13 06:28:52', NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -362,11 +432,23 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `tables`
+--
+ALTER TABLE `tables`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Индексы таблицы `working_hours`
+--
+ALTER TABLE `working_hours`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -394,19 +476,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT для таблицы `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `personal_access_tokens`
@@ -418,7 +500,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT для таблицы `places`
 --
 ALTER TABLE `places`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT для таблицы `roles`
@@ -427,10 +509,22 @@ ALTER TABLE `roles`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT для таблицы `tables`
+--
+ALTER TABLE `tables`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `working_hours`
+--
+ALTER TABLE `working_hours`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

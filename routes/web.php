@@ -2,17 +2,7 @@
 
 use App\Models\WorkingHour;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use Illuminate\Support\Facades\Auth;
 
 Route::group(['middleware' => ['auth', 'admin']], function(){
     Route::get('admin/index', ['App\Http\Controllers\Admin\AdminDashboardController', 'index'])->name('admin.index');
@@ -37,6 +27,7 @@ Route::get('contacts', [App\Http\Controllers\HomeController::class, 'contacts'])
 Route::get('wishlist', [App\Http\Controllers\WishlistController::class, 'index'])->name('wishlist');
 Route::get('wishlist/delete/{rowId}', [App\Http\Controllers\WishlistController::class, 'delete'])->name('wishlist.delete');
 Route::post('place', [App\Http\Controllers\HomeController::class, 'place'])->name('place');
+Route::post('check-place', [App\Http\Controllers\HomeController::class, 'checkPlace'])->name('checkPlace');
 Route::post('placeA', [App\Http\Controllers\HomeController::class, 'placeA'])->name('placeA');
 Route::post('check', [App\Http\Controllers\CartController::class, 'check'])->name('check');
 
