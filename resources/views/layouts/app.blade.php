@@ -8,7 +8,7 @@
     <title>@yield('title')</title>
     <link href="{{asset('css/main.css')}}" rel="stylesheet">
     <link href="{{asset('css/popup.css')}}" rel="stylesheet">
-    {{--<link href="{{asset('css/login.css')}}" rel="stylesheet">--}}
+    <link href="{{asset('css/login.css')}}" rel="stylesheet">
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/toastr.css')}}" rel="stylesheet">
 </head>
@@ -21,12 +21,12 @@
                 <div class="logo">
                     <a href="{{ URL('/') }}" class="main-screen">
                         <span class="big-logo">Ам-ням</span><br>
-                        <span class="small-logo">07:00 до 21:00, Москва, Брестская, 64</span>
-                        <span class="mobile-logo">07:00 — 21:00, Москва, Брестская, 64</span>
+                        <span class="small-logo">08:00 до 23:00, Москва, Брестская, 64</span>
+                        <span class="mobile-logo">08:00 — 23:00, Москва, Брестская, 64</span>
                     </a>
                     <a href="{{ URL('/') }}" class="small-screen">
                         <span class="big-logo">Ам-ням</span><br>
-                        <span class="small-logo">07:00 до 21:00</span>
+                        <span class="small-logo">08:00 до 23:00</span>
                         <span class="small-logo">ул.Брестская, д.64</span>
                         <span class="small-logo">238-238-3</span>
                     </a>

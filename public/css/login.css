@@ -1,10 +1,10 @@
-.login {
+.login2 {
     width: 20%;
     height: 100%;
     margin: 2rem auto;
 }
 
-.login-form {
+.login-form2 {
     /*position: absolute;
     left: 50%;
     top: 50%;
@@ -13,7 +13,7 @@
     padding: 2rem;
 }
 
-.login-form h3 {
+.login-form2 h3 {
     font-size: 1.5rem;
     padding: 0 0 2rem 0;
     text-align: center;
@@ -21,18 +21,18 @@
     font-weight: 600;
 }
 
-.login-form input {
+.login-form2 input {
     width: 100%;
     padding: .66rem;
     font-size: 1rem;
     line-height: 1rem;
-    font-family: "MontserratAlternates-Regular", sans-serif;
+    font-family: "Suedtirol Pro", sans-serif;
     border: 1px solid rgba(200, 200, 200, 1);
     outline: none;
     margin-bottom: 1rem;
 }
 
-.login-link {
+.login2-link {
     font-size: 1rem;
     padding: .66rem 1.33rem .8rem 1.33rem;
     transition: .5s;
