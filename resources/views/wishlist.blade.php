@@ -35,13 +35,22 @@
                 <div class="contacts-form">
                     <div class="contacts-item">
                         <div class="form-control">
-                            <input type="text" name="name" placeholder="Имя">
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Имя"
+                            value="{{ $userName }}">
                             @error('name')
                             <div style="color: red; font-size: .8rem; width: 100%; transform: translateY(-.5rem);">
                                 <p style="text-align: center; width: 100%;">{{ $message }}</p>
                             </div>
                             @enderror
-                            <input type="text" name="phone" placeholder="Телефон">
+                            <input
+                                type="text"
+                                name="phone"
+                                placeholder="Телефон"
+                                value="{{ $phone }}"
+                            >
                             @error('phone')
                             <div style="color: red; font-size: .8rem; width: 100%; transform: translateY(-.5rem);">
                                 <p style="text-align: center; width: 100%;">{{ $message }}</p>
@@ -72,7 +81,12 @@
                     </div>
                     <div class="contacts-item">
                         <div class="form-control">
-                            <input type="text" name="delivery" placeholder="Адрес">
+                            <input
+                                type="text"
+                                name="delivery"
+                                placeholder="Адрес"
+                                value="{{ $address }}"
+                            >
                             @error('delivery')
                             <div style="color: red; font-size: .8rem; width: 100%; transform: translateY(-.5rem);">
                                 <p style="text-align: center; width: 100%;">{{ $message }}</p>

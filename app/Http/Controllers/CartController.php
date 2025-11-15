@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dish;
 use App\Models\Order;
+use App\Models\Table;
 use App\Models\OrderItem;
 use Cart;
 
@@ -35,6 +36,7 @@ class CartController extends Controller
             'message' => 'Блюдо добавлено в заказ',
             'alert-type' => 'success'
         );
+
         return Redirect()->back()->with($notification);
     }
     /* -------- end add dish to shopping cart -------- */
@@ -91,6 +93,8 @@ class CartController extends Controller
         /* Prepare data for the order */
         $data = array();
         $data['user_name'] = $request->name;
+        $data['user_id'] = auth()->id() ?? 0;
+        $data['order_email'] = auth()->user()->email ?? '';
         $data['order_delivery'] = $request->delivery;
         $data['order_phone'] = $request->phone;
         $data['order_total'] = strval(Cart::priceTotal());
@@ -112,7 +116,8 @@ class CartController extends Controller
         /* Deleting the contents of the shopping cart */
         Cart::destroy();
         $order_yes = "Заказ принят";
-        return view('welcome', compact('order_yes'));
+        $tables = Table::all();
+        return view('welcome', compact('order_yes', 'tables'));
     }
     /* --------------- end Order formation ------------------ */
 }

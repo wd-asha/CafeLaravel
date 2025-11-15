@@ -9,6 +9,7 @@ use App\Models\Place;
 use App\Models\Table;
 use Carbon\Carbon;
 use App\Models\WorkingHour;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -65,6 +66,14 @@ class HomeController extends Controller
     public function place(Request $request)
     {
         $order_yes = "";
+        if (auth()->check()) {
+            $user_id = Auth::id();
+            // для авторизованного пользователя
+        }else{
+            $user_id = 0;
+            // для гостя
+        }
+
         //валидируем входные данные
         $request->validate([
             'name' => 'required|string|max:255',
@@ -108,13 +117,14 @@ class HomeController extends Controller
             return back()->with('order_error', 'На выбранное время столик уже забронирован');
         }
 
-        \App\Models\Place::create($request->only(['name', 'phone', 'date', 'time', 'places']));
+        $data = $request->only(['name', 'phone', 'date', 'time', 'places']);
+        $data['user_id'] = auth()->id() ?? 0;
+        \App\Models\Place::create($data);
+        /*\App\Models\Place::create($request->only(['name', 'phone', 'date', 'time', 'places', 'user_id']));*/
         $order_yes = "Заказ принят";
         $tables = Table::all();
         return redirect('/')
             ->with('order_yes', 'Заказ принят');
-        /*return view('welcome', compact('order_yes', 'tables'));*/
-        /*return back()->with('order_yes');*/
     }
 
     public function placeA(Request $request)

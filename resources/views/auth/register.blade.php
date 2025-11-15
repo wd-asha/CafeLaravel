@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.login')
 @section('title', 'Ам-ням | Регистрация')
 @section('content')
 
@@ -77,6 +77,8 @@
                                 <button type="submit" class="login2-link">Регистрация</button>
                             </div>
                         </div>
+
+                        <a href="{{ route('login') }}" class="toReg">Есть аккаунт? Вход</a>
                     </form>
                 </div>
             </div>

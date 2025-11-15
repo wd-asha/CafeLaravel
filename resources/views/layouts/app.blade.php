@@ -87,11 +87,32 @@
                     <a href="#popup">Заказать место</a>
                     <a href="{{ route('menu') }}">Заказать блюдо</a>
                 </div>
+                <div class="accountUser">
+                    @guest
+                        <a href="{{ route('login') }}" class="account-link">
+                            <img src="{{ asset('images/user.png') }}" alt="">
+                        </a>
+                    @endguest
+                    @auth
+                        @if(auth()->user()->role_id !== 1)
+                            <a href="{{ route('author.index') }}" class="account-link">
+                                <img src="{{ asset('images/user.png') }}" alt="">
+                            </a>
+                        @endif
+                        @if(auth()->user()->role_id === 1)
+                            <a href="{{ route('admin.index') }}" class="account-link">
+                                <img src="{{ asset('images/user.png') }}" alt="">
+                            </a>
+                        @endif
+                    @endauth
+                </div>
             </div>
 
         </div>
+
     </div>
 </div>
+
 
 @yield('content')
 

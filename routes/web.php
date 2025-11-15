@@ -12,6 +12,11 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 });
 Route::group(['middleware' => ['auth', 'author']], function(){
     Route::get('author/index', ['App\Http\Controllers\Author\AuthorDashboardController', 'index'])->name('author.index');
+    Route::get('author/change', ['App\Http\Controllers\Author\AuthorDashboardController', 'change'])->name('author.change');
+    Route::post('author/save', ['App\Http\Controllers\Author\AuthorDashboardController', 'save'])->name('author.save');
+    Route::get('author/place', ['App\Http\Controllers\Author\AuthorDashboardController', 'place'])->name('author.place');
+    Route::get('author/order', ['App\Http\Controllers\Author\AuthorDashboardController', 'order'])->name('author.order');
+    Route::get('author/orderItems/{order_id}', ['App\Http\Controllers\Author\AuthorDashboardController', 'orderItems'])->name('author.orderItems');
 });
 
 

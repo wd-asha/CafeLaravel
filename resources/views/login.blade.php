@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.login')
 @section('title', 'Ам-ням | Авторизация')
 @section('content')
 
@@ -40,9 +40,12 @@
                         autocomplete="current-password"
                     >
                 </div>
-                <div class="btn-box">
-                    <button type="submit" class="login2-link">Войти</button>
+                <div class="form-control">
+                    <div class="btn-box">
+                        <button type="submit" class="login2-link">Войти</button>
+                    </div>
                 </div>
+                <a href="{{ route('register') }}" class="toReg">Нет аккаунта? Регистрация</a>
             </form>
         </div>
     </div>

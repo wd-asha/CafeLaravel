@@ -1,5 +1,5 @@
 .container-about img {
-    width: 100%;
+    max-width: 100%;
 }
 
 .container-services-title p span {
