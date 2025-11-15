@@ -11,8 +11,6 @@
                     <div class="orders-place">
                         <div class="orders-item orders-captions">
                             <span>№ заказа</span>
-                            {{--<span>на дату</span>
-                            <span>на время</span>--}}
                             <span>Всего. руб</span>
                             <span>Создан</span>
                             <span>Статус</span>
@@ -21,8 +19,6 @@
                         @foreach($orders as $order)
                             <div class="orders-item">
                                 <span>{{ $order->id }}</span>
-                                {{--<span>{{ $order->places }}</span>
-                                <span>{{ $order->date }}</span>--}}
                                 <span>{{ $order->order_total }}</span>
                                 <span>{{ $order->created_at }}</span>
                                 <span>

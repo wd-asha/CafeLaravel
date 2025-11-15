@@ -6,7 +6,7 @@
             {{-- подключаем пункты меню аккаунта пользователя --}}
             @include('incs.account-links')
             {{-- выводим информацию о пользователе --}}
-            {{-- все поля только для чтения --}}
+            {{-- все поля открыты для редактирования --}}
             <div class="account-content">
                 <form method="post" action="{{ route('author.save') }}" class="change-form">
                     @csrf
@@ -54,7 +54,6 @@
                             name="phone"
                         >
                     </div>
-
                     <div class="change-form_item">
                         <label class="labelBtn" for="btn">btn</label>
                         <button class="button-submit" type="submit">Сохранить</button>

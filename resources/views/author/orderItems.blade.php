@@ -5,7 +5,7 @@
         <div class="account">
             {{-- подключаем пункты меню аккаунта пользователя --}}
             @include('incs.account-links')
-            {{-- выводим информацию о заказе блюд пользователя --}}
+            {{-- выводим информацию о блюдах в заказе пользователя --}}
             <div class="account-content">
                 @if($orderItems->isNotEmpty())
                     <div class="orders-place">
@@ -29,7 +29,7 @@
                     </div>
                 @else
                     <div class="orders-place">
-                        <p>Нет заказов...</p>
+                        <p>Нет блюд в заказе...</p>
                     </div>
                 @endif
             </div>

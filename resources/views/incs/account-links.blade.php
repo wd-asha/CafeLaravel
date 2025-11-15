@@ -8,10 +8,10 @@
         @if($accountLink == 'change') account-link-active @endif">Изменить</a>
     {{-- к списку заказов столиков --}}
     <a href="{{ route('author.place') }}" class="account-link
-        @if($accountLink == 'place') account-link-active @endif">Мои заказы мест</a>
+        @if($accountLink == 'place') account-link-active @endif">Заказы мест</a>
     {{-- к списку заказов блюд --}}
     <a href="{{ route('author.order') }}" class="account-link
-        @if($accountLink == 'order') account-link-active @endif">Мои заказы блюд</a>
+        @if($accountLink == 'order') account-link-active @endif">Заказы блюд</a>
     {{-- в панель администратора, если пользователь - администратор --}}
     @if(auth()->user()->is_admin)
         <a href="{{ route('admin.index') }}" class="account-link">Панель управления</a>

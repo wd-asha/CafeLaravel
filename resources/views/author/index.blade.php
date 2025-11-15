@@ -1,7 +1,7 @@
 {{-- аккаунт пользователя - главная --}}
 @extends('layouts.login')
 @section('content')
-    <div class="container">
+    <div class="container-account">
         <div class="account">
             {{-- подключаем пункты меню аккаунта пользователя --}}
             @include('incs.account-links')
